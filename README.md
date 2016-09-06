@@ -6,13 +6,14 @@ A sandbox for practicing some data science and machine learning techniques
 
 Concepts being investigated/learned
 ===================================
-Notes:
    
 Overviewed theoretically:
+
     Reinforcement Learning
         Q-learning
     
     
+In code:
 
 
 
@@ -21,6 +22,6 @@ Install Notes
 Those on pip:
  
  
- <!--mdp : Markov Decision Process--> 
+
 
  
