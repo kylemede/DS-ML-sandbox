@@ -5,15 +5,22 @@ A sandbox for practicing some data science and machine learning techniques
 
 
 Concepts being investigated/learned
-===================================
+===================================   
    
 Overviewed theoretically:
 
-    Reinforcement Learning
-        Q-learning
+    Reinforcement Learning:
+        -Q-learning
     
+Overviewed in notebooks:
     
-In code:
+    Distributions properties (DistributionsMetrics.ipynb) 
+
+
+Overviewed in code:
+
+
+
 
 
 
