@@ -11,8 +11,24 @@ Concepts being investigated/learned
    
 Overviewed theoretically:
 
-    Reinforcement Learning:
-        -Q-learning
+- Regression Analysis
+    - Linear Regression 
+    - Multivariate Regression
+- K-means Clustering
+- Principle Component Analysis (PCA)
+- Train/test and Cross Validation
+- Bayesian Methods
+- Decision Trees and Random Forests
+- Multi-level models
+- Support Vector Machines (SVMs)
+- Reinforcement Learning:
+    -Q-learning
+- Collaborative Filtering
+- K-Nearest Neighbors
+- Bias/Variance tradeoff
+- Ensemble learning
+- Term Frequency/ Inverse Document Frequency
+- Experimental design and A/B tests
     
 Overviewed in notebooks:
     
