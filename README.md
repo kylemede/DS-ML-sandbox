@@ -9,7 +9,7 @@ This repository is still very much in the works, as I am just starting to build 
 Concepts being investigated/learned
 ===================================   
    
-Overviewed theoretically:
+## Overviewed theoretically:
 
 - Regression Analysis
     - Linear Regression 
@@ -30,14 +30,16 @@ Overviewed theoretically:
 - Term Frequency/ Inverse Document Frequency
 - Experimental design and A/B tests
     
-Overviewed in notebooks:
+## Overviewed in notebooks:
     
-    Distributions properties (DistributionsMetrics.ipynb) 
+    Distributions properties (https://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/DistributionMetrics.ipynb) 
     
     Regression fitting (regression.ipynb)
+    
+    
 
 
-Overviewed in code:
+## Overviewed in code:
 
 
 
