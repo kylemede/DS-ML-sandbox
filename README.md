@@ -6,11 +6,12 @@ This repository is still very much in the works, as I am just starting to build 
 
 
 
-Concepts being investigated/learned
+Concepts being investigated/learned:
 ===================================   
    
 ## Overviewed theoretically:
 Data Science and Machine Learning:
+
 - Regression Analysis
     - Linear Regression 
     - Multivariate Regression
@@ -32,8 +33,9 @@ Data Science and Machine Learning:
 - Breadth-first-search
 
 Big Data:
+
 - Spark in Python
-    - Before Spark 2.0 ->Resilient Distributed Datastores
+    - Before Spark 2.0 -> Resilient Distributed Datastores
     - Spark 2.0 and up -> DataFrames
     - MLlib
     - Brief reviews of Spark SQL, Spark Streaming, and GraphX.
@@ -60,8 +62,14 @@ Overtime I will produce notebooks to discuss some aspects learned about these to
 
 Install Notes
 ==============
-Those on pip:
- scikit-learn
+Packages used that are available on pip:
+
+ - scikit-learn
+ - Pandas
+ 
+Those not available on pip:
+
+- Spark
  
 
 
