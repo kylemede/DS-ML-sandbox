@@ -26,10 +26,9 @@ Concepts being investigated/learned
 - Collaborative Filtering
 - K-Nearest Neighbors
 - Bias/Variance tradeoff
-- Ensemble learning
+- Ensemble learning (bootstrap aggregating/bagging)
 - Term Frequency/ Inverse Document Frequency
 - Experimental design and A/B tests
-- test23
     
 ## Overviewed in notebooks:
     
