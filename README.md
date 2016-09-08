@@ -10,7 +10,7 @@ Concepts being investigated/learned
 ===================================   
    
 ## Overviewed theoretically:
-
+Data Science and Machine Learning:
 - Regression Analysis
     - Linear Regression 
     - Multivariate Regression
@@ -29,6 +29,18 @@ Concepts being investigated/learned
 - Ensemble learning (bootstrap aggregating/bagging)
 - Term Frequency/ Inverse Document Frequency
 - Experimental design and A/B tests
+- Breadth-first-search
+
+Big Data:
+- Spark in Python
+    - Before Spark 2.0 ->Resilient Distributed Datastores
+    - Spark 2.0 and up -> DataFrames
+    - MLlib
+    - Brief reviews of Spark SQL, Spark Streaming, and GraphX.
+- Elastic MapReduce + Hadoop YARN to distribute Spark jobs
+
+
+Overtime I will produce notebooks to discuss some aspects learned about these topics, and experiment with them through code.  See those notebooks started so far below.
     
 ## Overviewed in notebooks:
     
