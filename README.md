@@ -32,9 +32,9 @@ Concepts being investigated/learned
     
 ## Overviewed in notebooks:
     
-- ['Distributions properties'](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/DistributionMetrics.ipynb)
-    
-    Regression fitting (regression.ipynb)
+- [Distributions properties](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/DistributionMetrics.ipynb)
+- [Regression fitting](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/regression.ipynb)
+- [My notes taken while reviewing Andrew NG's Machine Learning course on Coursera](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/MachineLearning_NG_CourseNotes.ipynb)
     
     
 
