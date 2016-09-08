@@ -53,7 +53,9 @@ Overtime I will produce notebooks to discuss some aspects learned about these to
     
 
 
-## Overviewed in code:
+## Overviewed in non-notebook code:
+
+These would be mostly Spark jobs, as the rest will probably be built into a notebook.  None have been put in this repo yet.
 
 
 
