@@ -1,5 +1,6 @@
 import sys
 import ast
+import numpy as np
 import cmath
 from _ast import Num
  
@@ -243,8 +244,56 @@ def armstrong_number(num=371):
     else:
         print(num,"is not an Armstrong Number")
     
-    
-    
+####################################################
+# CODE ME!!!!!    
+#Given the centers and radii of two circles, calculate the area of their overlap region.
+###############################################################
+def circles_overlap(r1,r2,cent_r1,cent_r2):
+    """ Calculate area of overlapping region between two circles """
+    ## prompt user or something to get the lower and upper limits of interval
+    ## REMOVE DEFAULT VALUE IN INPUTS
+    ## debug inputs
+    ## Test this code, NOT TESTED YET
+        
+    # if one of circles has zero radius, overlap is always zero
+    overlap_area = 0
+    if (r1!=0) and (r2!=0): 
+        ## calculate distance between centers
+        d = ((cent_r1[0]-cent_r2[0])**2.0+(cent_r1[1]-cent_r2[1])**2.0)**0.5
+        
+        big_r = r1
+        small_r = r2
+        if r2>r1:
+            big_r = r2
+            small_r = r1
+        
+        if d<=abs(big_r-small_r):
+            # smaller circle is inside bigger circle,
+            # so overlap is area of smaller circle.
+            overlap_area = np.pi*(small_r)**2.0
+            print "Smaller circle exists completely inside larger circle."
+        elif d>=(r1+r2):
+            # circles not touching, so no overlap.
+            overlap_area = 0
+            print "Two circles do not intersect."
+        else:
+            # calculate opening angles of overlap for each circle
+            ang_1 = np.arccos((d**2.0 + r1**2.0 - r2**2.0) / (2.0*d*r1))
+            ang_2 = np.arccos((d**2.0 + r2**2.0 - r1**2.0) / (2.0*d*r2))
+            # calculate area of cones
+            #cone_area_1 = ang_1 * r1**2.0
+            #cone_area_2 = ang_2 * r2**2.0
+            cone_area_total = (ang_1 * r1**2.0) + (ang_2 * r2**2.0)
+            # calculate area of triangles
+            triangle_area_1 = 0.5 * r1**2.0 * np.sin(2*ang_1)
+            triangle_area_2 = 0.5 * r2**2.0 * np.sin(2*ang_2)
+            
+            ## Calculate overlap area
+            overlap_area = cone_area_total - triangle_area_1 - triangle_area_2
+            
+        print "Area of the overlap region for the two circles was: "+repr(overlap_area)
+            
+            
     
 if __name__ == '__main__':
     #triangle_area()
