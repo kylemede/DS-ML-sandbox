@@ -5,7 +5,6 @@ A sandbox for practicing some data science and machine learning techniques.
 This repository is still very much in the works, as I am just starting to build some basic tools to work through some of the data science techniques I have learned thus far.  The vast majority of my tools and repos are on the 'private' side of my git.
 
 
-
 Concepts being investigated/learned:
 ===================================   
    
@@ -56,10 +55,6 @@ Overtime I will produce notebooks to discuss some aspects learned about these to
 ## Overviewed in non-notebook code:
 
 These would be mostly Spark jobs, as the rest will probably be built into a notebook.  None have been put in this repo yet.
-
-
-
-
 
 
 Install Notes
