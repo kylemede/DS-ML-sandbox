@@ -159,7 +159,7 @@ def triangle_area():
     area = (s*(s-a)*(s-b)*(s-c))**(1.0/2.0)
     if True:
         if area==0.0:
-            s = "\nThe points form a line, thus there is no triangle to "+\
+            s = "\nThe points do not form a triangle to "+\
             "calculate the area of.\n"
             print s
         else:
@@ -271,6 +271,7 @@ def circles_overlap(r1=10,r2=0,cent_r1=[1,20],cent_r2=[1,3]):
         ## calculate distance between centers
         d = ((cent_r1[0]-cent_r2[0])**2.0+(cent_r1[1]-cent_r2[1])**2.0)**0.5
         
+        # find which r is bigger
         big_r = r1
         small_r = r2
         if r2>r1:
@@ -290,16 +291,16 @@ def circles_overlap(r1=10,r2=0,cent_r1=[1,20],cent_r2=[1,3]):
             # calculate opening angles of overlap for each circle
             ang_1 = np.arccos((d**2.0 + r1**2.0 - r2**2.0) / (2.0*d*r1))
             ang_2 = np.arccos((d**2.0 + r2**2.0 - r1**2.0) / (2.0*d*r2))
-            # calculate area of cones
-            #cone_area_1 = ang_1 * r1**2.0
-            #cone_area_2 = ang_2 * r2**2.0
-            cone_area_total = (ang_1 * r1**2.0) + (ang_2 * r2**2.0)
+            # calculate area of sectors
+            #sector_area_1 = ang_1 * r1**2.0
+            #sector_area_2 = ang_2 * r2**2.0
+            sector_area_total = (ang_1 * r1**2.0) + (ang_2 * r2**2.0)
             # calculate area of triangles
             triangle_area_1 = 0.5 * r1**2.0 * np.sin(2*ang_1)
             triangle_area_2 = 0.5 * r2**2.0 * np.sin(2*ang_2)
             
             ## Calculate overlap area
-            overlap_area = cone_area_total - triangle_area_1 - triangle_area_2
+            overlap_area = sector_area_total - triangle_area_1 - triangle_area_2
             
         print "\nArea of the overlap region for the two circles was: "+repr(overlap_area)+"\n"
     else:
@@ -340,7 +341,7 @@ def squares_overlap(sl1=1,sl2=3,cent1=[1,1],cent2=[2,2]):
     
     
 
-def circles_overlap_border(r1,r2,cent_r1,cent_r2):
+def circles_overlap_border(r1=1,r2=2,cent_r1=[1,2],cent_r2=[3,1]):
     """ Calculate the border of two circles that possibly overlap, not 
     counting any area of overlap as part of the border."""
     ## prompt user or something to get the inputs
@@ -348,21 +349,107 @@ def circles_overlap_border(r1,r2,cent_r1,cent_r2):
     # Test non character inputs
     ## debug inputs
     ## Test this code, NOT TESTED YET
-    temp = 1
     
+    border_total = 0
+    if (r1*r2<0):
+        msg = "\nOne of the circles has a negative radius.  Will "+\
+              "consider this a typo and use the absolute value instead."
+        print msg
+        r1 = abs(r1)
+        r2 = abs(r2)
+    if (r1*r2>0): 
+        ## calculate distance between centers
+        d = ((cent_r1[0]-cent_r2[0])**2.0+(cent_r1[1]-cent_r2[1])**2.0)**0.5
+        
+        # find which r is bigger
+        big_r = r1
+        small_r = r2
+        if r2>r1:
+            big_r = r2
+            small_r = r1
+            
+        ## calculate circumference of each circle
+        #circumference_small = 2.0*np.pi*small_r
+        #circumference_big = 2.0*np.pi*big_r
+        
+        if d<=abs(big_r-small_r):
+            # smaller circle is inside bigger circle,
+            # so external border is that of the larger circle alone
+            print "\nSmaller circle exists completely inside larger circle."
+            border_total = 2.0*np.pi*big_r
+        elif d>=(r1+r2):
+            # circles not touching, 
+            # so external border is total of both circumferences.
+            print "\nTwo circles do not intersect."
+            border_total = 2.0*np.pi*big_r + 2.0*np.pi*small_r
+        else:
+            ## circles do overlap
+            print "\nCircles partially overlap."
+            # calculate opening angles of overlap for each circle
+            ang_1 = np.arccos((d**2.0 + r1**2.0 - r2**2.0) / (2.0*d*r1))
+            ang_2 = np.arccos((d**2.0 + r2**2.0 - r1**2.0) / (2.0*d*r2))
+            
+            # calculate portion of circumferences not overlapping
+            border_1 = (2.0*np.pi-2.0*ang_1)*r1
+            border_2 = (2.0*np.pi-2.0*ang_2)*r2
+            border_total = border_1 + border_2
+        print "\nTotal non-overlapping border is: "+str(border_total)+"\n"
     
-def origin_in_triangle():
-    """ Calculate if the origin is contained in a triangle."""
+def origin_in_triangle(pt=[0,0],v1=[-1,-1],v2=[1,-1],v3=[0,2]):
+    """ Calculate if the origin is contained in a triangle.  
+    This problem converts the points to Barycentric coordinates.
+    https://en.wikipedia.org/wiki/Barycentric_coordinate_system"""
     ## prompt user or something to get the inputs
     ## REMOVE DEFAULT VALUE IN INPUTS
     # Test non character inputs
-    ## debug inputs
-    ## Test this code, NOT TESTED YET
-    temp = 1
     
+    ## Double check all numbers are floats, not ints
+    #v1 = [float(v1[0]),float(v1[1])]
+    #v2 = [float(v2[0]),float(v2[1])]
+    #v3 = [float(v3[0]),float(v3[1])]
+    #pt = [float(pt[0]),float(pt[1])]
     
+    ## For command line vertices to side lengths
+    (a,b,c) = verts_to_sides(v1, v2, v3)
     
-    
+    ## Apply Heron's Formula to get area of triangle
+    s = 0.5*(a+b+c)
+    area = (s*(s-a)*(s-b)*(s-c))**(1.0/2.0)
+    if area==0.0:
+        s = "\nThe points do not form a triangle to calculate the area of.\n"
+        print s
+    else:
+        # Now we know the vertices in fact form a triangle, so check if point
+        # is inside it.
+        
+        # shorten var labels
+        (x1,y1,x2,y2,x3,y3) = (v1[0],v1[1],v2[0],v2[1],v3[0],v3[1])
+        ## Calculate point's location in barycentric coordiants
+        denominator = ((y2-y3)*(x1-x3) + (x3-x2)*(y1-y3))
+        coord_a = ((y2 - y3)*(pt[0] - x3) + (x3 - x2)*(pt[1] - y3))/denominator
+        coord_b = ((y3 - y1)*(pt[0] - x3) + (x1 - x3)*(pt[1] - y3))/denominator
+        coord_c = 1.0 - coord_a - coord_b
+        
+        #print repr((coord_a,coord_b,coord_c))
+        
+        ## check if new coords are within [0,1]
+        a_0_to_1 = (0.0<=coord_a) and (coord_a<=1.0)
+        b_0_to_1 = (0.0<=coord_b) and (coord_b<=1.0)
+        c_0_to_1 = (0.0<=coord_c) and (coord_c<=1.0)
+        
+        #print repr((a_0_to_1,b_0_to_1,c_0_to_1))
+        
+        ## Check if all True, if so, it is inside
+        inside = a_0_to_1 and b_0_to_1 and c_0_to_1
+        is_isnt = " is NOT "
+        if inside:
+            is_isnt = " IS "
+        
+        ## print result
+        msg = "\nThe point "+repr(pt)+is_isnt+"inside the triangle "+\
+              "defined by the vertices: "+repr([v1,v2,v3])+"\n"
+        print msg
+        
     
 if __name__ == '__main__':
     #triangle_area()
@@ -372,7 +459,9 @@ if __name__ == '__main__':
     #primes_in_interval()
     #armstrong_number()
     #circles_overlap()
-    squares_overlap()
+    #squares_overlap()
+    #circles_overlap_border()
+    origin_in_triangle()
     
     
     
