@@ -3,6 +3,9 @@ import ast
 import numpy as np
 import cmath
 from _ast import Num
+
+# Lots of interesting geometry based coding puzzles discussed at: http://codegolf.stackexchange.com/questions/tagged/geometry
+# Some of the puzzles posed there have functions started at the bottom of this script, but have not been fleshed out yet.
  
 def bad_char_finder(ss):
     """Find the character in the string that is not a number or [ ] , ( )"""
@@ -168,6 +171,7 @@ def quadratic():
     """ Solves the quadratic equation
     ie. ax**2 +bx + c = 0
     """
+    # Test non character inputs
     
     ## prompt user to input side lengths
     print "#"*62
@@ -190,6 +194,7 @@ def is_prime(num=4):
     """ Determine if the input is a prime number or not."""
     ## prompt user or something to get number
     ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
     
     ## Check if it is a prime number
     tf = all(num%i for i in xrange(2,num))
@@ -205,6 +210,7 @@ def find_factors(num=136):
     """ Find the factors of the input number."""
     ## prompt user or something to get number
     ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
     
     ## make a list of all the factors
     factors = [] 
@@ -218,6 +224,7 @@ def primes_in_interval(low=4,high=59):
     """ Find all the prime numbers in an interval"""
     ## prompt user or something to get the lower and upper limits of interval
     ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
     
     ## find all the primes
     primes = []
@@ -226,38 +233,41 @@ def primes_in_interval(low=4,high=59):
             if all(num%i for i in xrange(2,num)):
                 primes.append(num)
     
-    print "Prime numbers in the interval "+repr((low,high))+" are:"
-    print repr(primes)
+    print "\nPrime numbers in the interval "+repr((low,high))+" are:"
+    print repr(primes)+"\n"
 
-def armstrong_number(num=371):
+def armstrong_number(num=-1000):
     """ Determine if number is an 'Armstrong Number'"""
-    
-    sum = 0
-    t = num 
-    while t>0:
-        d = t%10
-        t//=10
-        sum+=d**3
-        
-    if sum==num:
-        print(num,"is an Armstrong Number")
-    else:
-        print(num,"is not an Armstrong Number")
-    
-####################################################
-# CODE ME!!!!!    
-#Given the centers and radii of two circles, calculate the area of their overlap region.
-###############################################################
-def circles_overlap(r1,r2,cent_r1,cent_r2):
-    """ Calculate area of overlapping region between two circles """
-    ## prompt user or something to get the lower and upper limits of interval
+    ## prompt user or something to input number
     ## REMOVE DEFAULT VALUE IN INPUTS
-    ## debug inputs
-    ## Test this code, NOT TESTED YET
+    # Test non character inputs
+    
+    if num<0:
+        print "\nNumber provided is negative; thus, not an Armstrong Number.\n"
+    else:
+        s = 0
+        t = num 
+        while t>0:
+            d = t%10
+            t//=10
+            s+=d**3
+            
+        if s==num:
+            print "\n"+str(num)+" IS an Armstrong Number\n"
+        else:
+            print "\n"+str(num)+" is NOT an Armstrong Number\n"
+    
+def circles_overlap(r1=10,r2=0,cent_r1=[1,20],cent_r2=[1,3]):
+    """ Calculate area of overlapping region between two circles """
+    ## prompt user or something to get the inputs
+    ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
         
     # if one of circles has zero radius, overlap is always zero
     overlap_area = 0
-    if (r1!=0) and (r2!=0): 
+    if (r1*r2<0):
+        print "\nOne of the circles has a negative radius; thus, do not overlap.\n"
+    elif (r1*r2>0): 
         ## calculate distance between centers
         d = ((cent_r1[0]-cent_r2[0])**2.0+(cent_r1[1]-cent_r2[1])**2.0)**0.5
         
@@ -271,11 +281,11 @@ def circles_overlap(r1,r2,cent_r1,cent_r2):
             # smaller circle is inside bigger circle,
             # so overlap is area of smaller circle.
             overlap_area = np.pi*(small_r)**2.0
-            print "Smaller circle exists completely inside larger circle."
+            print "\nSmaller circle exists completely inside larger circle."
         elif d>=(r1+r2):
             # circles not touching, so no overlap.
             overlap_area = 0
-            print "Two circles do not intersect."
+            print "\nTwo circles do not intersect."
         else:
             # calculate opening angles of overlap for each circle
             ang_1 = np.arccos((d**2.0 + r1**2.0 - r2**2.0) / (2.0*d*r1))
@@ -291,15 +301,78 @@ def circles_overlap(r1,r2,cent_r1,cent_r2):
             ## Calculate overlap area
             overlap_area = cone_area_total - triangle_area_1 - triangle_area_2
             
-        print "Area of the overlap region for the two circles was: "+repr(overlap_area)
+        print "\nArea of the overlap region for the two circles was: "+repr(overlap_area)+"\n"
+    else:
+        print "\nOne of the circles has a radius of zero; thus, do not overlap.\n"
             
+def squares_overlap(sl1=1,sl2=3,cent1=[1,1],cent2=[2,2]):
+    """ Calculate area of overlap between two squares.  
+    Note: This function does not allow for any rotation of the squares."""
+    ## prompt user or something to get the lower and upper limits of interval
+    ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
+    
+    if sl1*sl2==0:
+        print "\nOne of the squares has a side length of 0; thus, no overlap.\n"
+    else:
+        if sl1*sl2<0:
+            msg = "\nOne of the squares has a negative side length.  Will "+\
+                  "consider this a typo and use the absolute value instead."
+            print msg
+            sl1 = abs(sl1)
+            sl2 = abs(sl2)
+                
+        x_diff = abs(cent1[0]-cent2[0])
+        y_diff = abs(cent1[1]-cent2[1])
+        
+        x_overlap = 0
+        y_overlap = 0
+        if x_diff<(0.5*(sl1+sl2)):
+            x_overlap = (0.5*(sl1+sl2))-x_diff
+        if y_diff<(0.5*(sl1+sl2)):
+            y_overlap = (0.5*(sl1+sl2))-y_diff
             
+        if x_overlap*y_overlap==0:
+            print "\nSquares do not touch; thus, no overlap.\n"
+        else:
+            overlap = x_overlap*y_overlap
+            print "\nOverlap area for two squares is: "+str(overlap)+"\n"
+    
+    
+
+def circles_overlap_border(r1,r2,cent_r1,cent_r2):
+    """ Calculate the border of two circles that possibly overlap, not 
+    counting any area of overlap as part of the border."""
+    ## prompt user or something to get the inputs
+    ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
+    ## debug inputs
+    ## Test this code, NOT TESTED YET
+    temp = 1
+    
+    
+def origin_in_triangle():
+    """ Calculate if the origin is contained in a triangle."""
+    ## prompt user or something to get the inputs
+    ## REMOVE DEFAULT VALUE IN INPUTS
+    # Test non character inputs
+    ## debug inputs
+    ## Test this code, NOT TESTED YET
+    temp = 1
+    
+    
+    
+    
     
 if __name__ == '__main__':
     #triangle_area()
     #quadratic()
     #is_prime()
-    find_factors()
+    #find_factors()
+    #primes_in_interval()
+    #armstrong_number()
+    #circles_overlap()
+    squares_overlap()
     
     
     
