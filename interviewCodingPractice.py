@@ -163,17 +163,36 @@ def triangle_area():
     """
     Calculates the area of a triangle  with Heron's formulat from the length 
     of the 3 sides.
+    Inputs defining the triangle can be provided in two ways:
+        command line arguments:
+            formats accepted:
+              'x1,y1'   'x2,y2'   'x3,y3'
+             '(x1,y1)' '(x2,y2)' '(x3,y3)' 
+             '[x1,y1]' '[x2,y2]' '[x3,y3]'
+            '((x1,y1),(x2,y2),(x3,y3))' 
+            '[[x1,y1],[x2,y2],[x3,y3]]'
+            'a,b,c'
+            'a' 'b' 'c'
+            '(a,b,c)'
+            '[a,b,c]'
+        Else, user will be prompted to provide lengths of each side.
     """
+    from_verts = True
     ###################################
     # Options for how to provide inputs
     ###################################
-    ## For command line vertices to side lengths
-    (v1,v2,v3) = cmd_to_verts()
-    (a,b,c) = verts_to_sides(v1, v2, v3)
-    ## For command line side lengths
-    #(a,b,c) = cmd_to_sides()
-    ## For prompt to provide side lengths
-    #(a,b,c) = triangle_sides_prompt()
+    if len(sys.argv)>1:
+        if from_verts:
+            ## For command line vertices to side lengths
+            (v1,v2,v3) = cmd_to_verts()
+            (a,b,c) = verts_to_sides(v1, v2, v3)
+        else:
+            ## For command line side lengths
+            (a,b,c) = cmd_to_sides()
+    else:
+        ## NEED SCIPT TO PROMPT FOR VERTS MAYBE!!!!!!!!!!
+        ## For prompt to provide side lengths
+        (a,b,c) = triangle_sides_prompt()
     
     ## Check if points actually form a line(collin,between)
     (collin,between) = collinear(v1,v2,v3)
