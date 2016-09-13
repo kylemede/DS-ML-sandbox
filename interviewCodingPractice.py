@@ -543,9 +543,176 @@ def collinear(pt0=[0.,0.],pt1=[1.,1.],pt2=[2.,2.]):
         between = between_x and between_y
     
     return (collin,between)
+
+def codility_overlapping_rectangles(K,L,M,N,P,Q,R,S):
+    """
+    MY INCORRECT ANSWER TO THIS QUESTION HERE, 
+    SEE: codility_overlapping_rectangles_fixed FOR CORRECT ANSWER.
+    
+    Test question 1 on codility. 
+    (K,L) box 1 bottom left corner, (M,N) box 1 top right corner.
+    (P,Q) box 2 bottom left corner, (R,S) box 2 top right corner.
+    
+    Original test values were:
+    (-4,1,2,6,0,-1,4,3)
+    """
+    #Find length and heights
+    box1_height = abs(N-L)
+    box1_length = abs(K-M)
+    box2_height = abs(S-Q)
+    box2_length = abs(P-R)
+    
+    #find areas
+    area1 = box1_height*box1_length
+    area2 = box2_height*box2_length
+    
+    #Find the centers
+    cent1_x = M-0.5*(box1_length)
+    cent1_y = N-0.5*(box1_height)
+    cent2_x = R-0.5*(box2_length)
+    cent2_y = S-0.5*(box2_height)
+    
+    #distance between centers
+    x_diff = abs(cent2_x-cent1_x)
+    y_diff = abs(cent2_y-cent1_y)
+    
+    #find if they overlap and calc overlap in x and y
+    x_overlap = 0
+    y_overlap = 0
+    if x_diff<(0.5*(box1_length+box2_length)):
+        x_overlap = 0.5*(box1_length+box2_length)-x_diff
+    if y_diff<(0.5*(box1_height+box2_height)):
+        y_overlap = 0.5*(box1_height+box2_height)-y_diff
+        
+    #Calculate total area, only considering overlap once, if any
+    tot_area = area1+area2-(x_overlap*y_overlap)
+    
+    print "Box 1 area = "+repr(area1)
+    print "box 2 area = "+repr(area2)
+    print "overlap area = "+repr(x_overlap*y_overlap)
+    print "total area = "+repr(tot_area)
+    return tot_area
+    
+def codility_overlapping_rectangles_fixed(K,L,M,N,P,Q,R,S):
+    """    
+    Test question 1 on codility. 
+    (K,L) box 1 bottom left corner, (M,N) box 1 top right corner.
+    (P,Q) box 2 bottom left corner, (R,S) box 2 top right corner.
+    
+    Original test values were:
+    (-4,1,2,6,0,-1,4,3) # box 2 overlapping bottom right corner of box 1
+    
+    Extra tests for corner cases:
+    (0,-1,4,3,-4,1,2,6) # box 2 overlapping top left corner of box 1
+    (0,0,10,10,2,2,4,4) # box 2 completely inside box 1
+    (0,0,10,10,5,-5,7,20) # box 1 and box 2 forming plus symbol
+    (0,0,10,10,-1,-1,-1,-1) #box 2 being just a point
+    
+    # both boxes being hug and not intersecting totest the 
+    # 'return -1 if tot_area>2147483647" rule.
+    (-1e6,-1e6,1e6,1e6,1e6,1e6,5e6,5e6) 
+    """
+    #print 50*"*"
+    # Find length and heights
+    box1_height = abs(N-L)
+    box1_length = abs(K-M)
+    box2_height = abs(S-Q)
+    box2_length = abs(R-P)
+    # Find areas
+    area1 = box1_height*box1_length
+    area2 = box2_height*box2_length
+    
+    # First check if one or both of boxes has zero area
+    tot_area = area1 + area2
+    if (area1*area2)>0:
+        # Calculate the overlap in x and y.  
+        # Will be negative if no overlap, so, set it to zero in those cases.
+        # This form checks for partial overlap, and the smaller box 
+        # being completely inside the larger one.
+        x_overlap = min(R,M)-max(P,K)
+        if x_overlap<0:
+            x_overlap = 0
+        y_overlap = min(S,N)-max(Q,L)
+        if y_overlap<0:
+            y_overlap = 0
+        #print repr(area1)
+        #print repr(area2)
+        #print repr(y_overlap*x_overlap)
+        tot_area = area1 + area2 - (y_overlap*x_overlap)
+        
+        
+    if tot_area>2147483647:
+        tot_area = -1
+    print "\n"+repr(tot_area)+"\n"
+    return tot_area
+
+
+def codility_k_complimentary_fixed(K,A):
+    """
+    THIS IS THE CORRECTED VERSION OF THE ONE I SUBMITTED.  THIS ONE IS CLOSER
+    TO O(NLogN), WHEREAS THE ONE I SUBMITTED WAS O(N**2).
+    
+    Test question 2 on codility.
+    A is an array of ints, K is the A[i]+A[j]=K value.
+    
+    Original test values were:
+    A=[1,8,-3,0,1,3,-2,4,5],K=6
+    
+    Extra test cases:
+    (K=6,A=[1,1,1,1,1,1,1,1,1,5,5,5,5,5,5,5,5,5,5,5,5])
+    (K=6,A=[3])
+    (K=-6,A=[-3])
+    (K=6,A=[1])
+    (K=0,A=[0])
+    (K=2147483646,A=[int(2147483646/2.0)])
+    (K=-2147483646,A=[int(-2147483646/2.0)])
+    (K=2147483647,A=[int(2147483647/2.0)])
+    (K=0,A=[])
+    """
+    #print 50*"*"
+    count = 0
+    # Documentation says this won't happen, but better to be safe...
+    if (type(A)==list) or (type(K)==int):
+        #First sort the array to change from O(N**2) to O(N*logN)
+        A.sort()
+        
+        #Set up initial values of important counters and result lists.
+        i = 0
+        j = len(A)-1
+        sames = []
+        keep_going = True
+        pairs = []
+        #inds = []
+        
+        if len(A)>0:
+            # Move from out to middle, adding up number of complimentary pairs
+            while(keep_going):
+                #print repr((i,j))
+                if (A[i]+A[j]==K):
+                    if (i==j) and (i not in sames):
+                        count+=1
+                        sames.append(i)
+                        pairs.append((A[i],A[j]))
+                        #inds.append((i,j))
+                    else:
+                        count+=2
+                        pairs.append((A[i],A[j]))
+                        #inds.append((i,j))
+                if i<j:
+                    i+=1
+                elif i==j:
+                    if j==0:
+                        keep_going = False
+                    i = 0
+                    j-=1
+            
+        #print "pairs = "+repr(pairs)
+        #print "inds = "+repr(inds)
+    print "\n"+repr(count)
+    return count
     
 if __name__ == '__main__':
-    #triangle_area()
+    triangle_area()
     #quadratic()
     #is_prime()
     #find_factors()
@@ -555,7 +722,24 @@ if __name__ == '__main__':
     #squares_overlap()
     #circles_overlap_border()
     #origin_in_triangle()
-    collinear()
+    #collinear()
     
+    #codility_overlapping_rectangles_fixed(-4,1,2,6,0,-1,4,3)
+    #codility_overlapping_rectangles_fixed(0,-1,4,3,-4,1,2,6)
+    #codility_overlapping_rectangles_fixed(0,0,10,10,2,2,4,4)
+    #codility_overlapping_rectangles_fixed(0,0,10,10,5,-5,7,20)
+    #codility_overlapping_rectangles_fixed(0,0,10,10,-1,-1,-1,-1)
+    #codility_overlapping_rectangles_fixed(-1e6,-1e6,1e6,1e6,1e6,1e6,5e6,5e6)
+    
+    #codility_k_complimentary_fixed(K=6,A=[1,8,-3,0,1,3,-2,4,5])
+    #codility_k_complimentary_fixed(K=6,A=[1,1,1,1,1,1,1,1,1,5,5,5,5,5,5,5,5,5,5,5,5])
+    #codility_k_complimentary_fixed(K=6,A=[3])
+    #codility_k_complimentary_fixed(K=-6,A=[-3])
+    #codility_k_complimentary_fixed(K=6,A=[1])
+    #codility_k_complimentary_fixed(K=0,A=[0])
+    #codility_k_complimentary_fixed(K=2147483646,A=[int(2147483646/2.0)])
+    #codility_k_complimentary_fixed(K=-2147483646,A=[int(-2147483646/2.0)])
+    #codility_k_complimentary_fixed(K=2147483647,A=[int(2147483647/2.0)])
+    #codility_k_complimentary_fixed(K=0,A=[])
     
     
