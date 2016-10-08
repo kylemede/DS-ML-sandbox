@@ -48,7 +48,7 @@ Overtime I will produce notebooks to discuss some aspects learned about these to
 - [Distributions properties](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/DistributionMetrics.ipynb)
 - [Regression fitting](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/regression.ipynb)
 - [My notes taken while reviewing Andrew NG's Machine Learning course on Coursera](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/MachineLearning_NG_CourseNotes.ipynb)
-- [Corrected versions of the functions I submitted during a codility test](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/codility_test_answers.ipynb)
+- [Corrected versions of the functions I submitted during a Codility test](http://github.com/kylemede/DS-ML-sandbox/blob/master/notebooks/codility_test_answers.ipynb)
     
 
 ## Overviewed in non-notebook code:
